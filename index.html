@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QCF Quantum Computing Simulator</title>
+
+    <style>
+        body{
+            font-family:Arial;
+            margin:40px;
+        }
+
+        h1{
+            color:darkblue;
+        }
+
+        select,input,button{
+            padding:10px;
+            margin:10px;
+            width:300px;
+        }
+
+        #output{
+            border:1px solid black;
+            padding:20px;
+            margin-top:20px;
+            min-height:200px;
+            white-space:pre-wrap;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>QCF Quantum Computing Simulator</h1>
+
+<h3>Select Function</h3>
+
+<select id="function">
+
+<option value="grover">Grover Algorithm</option>
+
+<option value="deutsch">Deutsch Algorithm</option>
+
+<option value="deutsch_jozsa">Deutsch Jozsa</option>
+
+<option value="qft">Quantum Fourier Transform</option>
+
+<option value="genghz">Generate GHZ State</option>
+
+<option value="hadamard">Hadamard</option>
+
+<option value="measure">Measure</option>
+
+<option value="identity">Identity</option>
+
+<option value="renormalise">Renormalise</option>
+
+<option value="build_u">Build U</option>
+
+<option value="dec2vec">Dec2Vec</option>
+
+<option value="bin2vec">Bin2Vec</option>
+
+<option value="struct2vec">Struct2Vec</option>
+
+<option value="vec2struct">Vec2Struct</option>
+
+<option value="cf_assert">CF Assert</option>
+
+<option value="cf_rescale">CF Rescale</option>
+
+<option value="cf_approx">CF Approx</option>
+
+</select>
+
+<br>
+
+<input
+type="text"
+id="params"
+placeholder="Enter parameters e.g. 3 or 5,3"
+/>
+
+<br>
+
+<button onclick="runFunction()">
+Run Function
+</button>
+
+<h2>Output</h2>
+
+<div id="output">
+Output will appear here...
+</div>
+
+<script>
+
+function runFunction(){
+
+let func=document.getElementById("function").value;
+let params=document.getElementById("params").value;
+
+fetch("/run",{
+method:"POST",
+headers:{
+"Content-Type":"application/x-www-form-urlencoded"
+},
+body:
+"function="+encodeURIComponent(func)+
+"&params="+encodeURIComponent(params)
+})
+.then(response=>response.text())
+.then(data=>{
+document.getElementById("output").innerHTML=data;
+});
+
+}
+
+</script>
+
+</body>
+</html>
